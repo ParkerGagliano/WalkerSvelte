@@ -11,16 +11,15 @@ export const actions = {
     let confirmpassword = data.get("confirmpassword");
     let userExists = await Users.query().where("username", username);
     if (userExists.length > 0) {
-      console.log("User already exists");
+      return { error: "User already exists" };
     } else {
       if (password != confirmpassword) {
-        console.log("Passwords do not match");
+        return { error: "Password incorrect" };
       } else {
         user = await Users.query().insert({
           username: username,
           password: bcrypt.hashSync(password, 8),
         });
-        console.log(user);
       }
       console.log(user);
       return user.toJSON();

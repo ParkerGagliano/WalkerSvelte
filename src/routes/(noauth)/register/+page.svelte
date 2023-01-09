@@ -1,7 +1,8 @@
 <script>
   import { onMount } from "svelte/internal";
   import { fly } from "svelte/transition";
-
+  /** @type {import('./$types').ActionData} */
+  export let form;
   let ready = false;
   onMount(() => {
     ready = true;
@@ -9,6 +10,11 @@
 </script>
 
 {#if ready === true}
+  {#if form?.error}
+    <div class="alert alert-danger" role="alert">
+      {form?.error}
+    </div>
+  {/if}
   <div class="container-lg">
     <div class="row justify-content-center">
       <div class="col-7">

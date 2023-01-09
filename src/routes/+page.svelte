@@ -4,5 +4,4 @@
   console.log(data);
 </script>
 
-<h1>{data.ans}</h1>
-<div>{@html data.ans}</div>
+<h1>{data}</h1>

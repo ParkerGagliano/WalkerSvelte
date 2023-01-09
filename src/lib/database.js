@@ -1,6 +1,8 @@
 import Knex from "knex";
 import knexConfig from "./knexfile";
 import { Model } from "objection";
+import Users from "./models/users";
+
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 async function createSchema() {
@@ -20,7 +22,7 @@ async function createSchema() {
 
   await knex.schema.createTable("users", (table) => {
     table.increments("id").primary();
-    table.string("username");
+    table.string("username").unique();
     table.string("password");
   });
 }
@@ -28,6 +30,7 @@ createSchema();
 
 export const db = {
   async login(data) {
-    return data;
+    let ins = await Users.query().insert(data);
+    return ins.toJSON();
   },
 };

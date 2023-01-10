@@ -8,3 +8,4 @@
   <h1>{data.error}</h1>
 {/if}
 <h1>{data.username}</h1>
+<slot />

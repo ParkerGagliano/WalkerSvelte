@@ -1,9 +1,35 @@
 import { SECRET_API_KEY } from "$env/static/private";
-
 import { db } from "$lib/database";
+import { redirect } from "@sveltejs/kit";
+import { fade } from "svelte/transition";
+
+/** @type {import('./$types').PageServerLoad}Load} */
+export async function load({ cookies }) {
+  const sessionid = cookies.get("session_token");
+  let session = await db.getSession(sessionid);
+  let addresses = await db.getAddresses(session.user_id);
+  let temp = addresses.map((element) => {
+    return {
+      origin_address: element.origin_address,
+      destination_address: element.destination_address,
+      walktime: element.walktime,
+    };
+  });
+  console.log(temp, "ADDRESSES");
+  if (!sessionid) {
+    throw redirect(307, "/login");
+  }
+
+  return { addresses: temp };
+}
 /** @type {import('./$types').Actions} */
 export const actions = {
   default: async (event) => {
+    let check = await db.getUser(event.cookies.get("session_token"));
+
+    if (check.error == "Session expired") {
+      throw redirect(307, "/login");
+    }
     let fd = await event.request.formData();
     let address = fd.get("address");
     console.log(address);

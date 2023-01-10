@@ -35,7 +35,7 @@ async function createSchema() {
   }
   await knex.schema.createTable("addresses", (table) => {
     table.increments("id").primary();
-    table.string("origin_address").unique();
+    table.string("origin_address");
     table.string("destination_address");
     table.integer("walktime");
     table.integer("drivetime");
@@ -60,6 +60,16 @@ export const db = {
       createSchema();
     }
   },
+  async getAddresses(id) {
+    let addresses = await Addresses.query().where("owner_id", id);
+
+    return addresses;
+  },
+
+  async getSession(token) {
+    let session = await Sessions.query().where("token", token);
+    return session[0].toJSON();
+  },
 
   async login(data) {
     let ins = await Users.query().insert(data);
@@ -68,9 +78,7 @@ export const db = {
 
   async getUser(token) {
     let session = await Sessions.query().where("token", token);
-    console.log("SESSION", session);
     let currentUser = await Users.query().where("id", session[0].user_id);
-    console.log("CURRENTUSER", currentUser);
     if (session.length == 0) {
       return { error: "No session, login/register" };
     }
@@ -137,9 +145,14 @@ export const db = {
   async addAddress(data) {
     let currentUser = await Sessions.query().where("token", data.session_token);
     currentUser = currentUser[0];
-    console.log(currentUser, "CURRENT USER");
     data.addyData.owner_id = currentUser.user_id;
-    console.log(data.addyData, "SADNJ");
+    let addr = await Addresses.query().where(
+      "origin_address",
+      data.addyData.origin_address
+    );
+    if (addr.length > 0) {
+      return { error: "Address already exists" };
+    }
     let ins = await Addresses.query().insert(data.addyData);
     return ins.toJSON();
   },

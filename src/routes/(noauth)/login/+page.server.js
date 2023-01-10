@@ -12,6 +12,6 @@ export const actions = {
     let password = data.get("password");
     let user = await db.loginUser(username, password);
     event.cookies.set("session_token", user.session_token, { path: "./" });
-    return user;
+    throw redirect(307, "/");
   },
 };

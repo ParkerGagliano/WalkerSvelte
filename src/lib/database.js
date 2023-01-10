@@ -3,6 +3,7 @@ import knexConfig from "./knexfile";
 import { Model } from "objection";
 import Sessions from "./models/sessions";
 import Users from "./models/users";
+import Addresses from "./models/addresses";
 import uuid from "uuid";
 import bcrypt from "bcrypt";
 
@@ -29,12 +30,24 @@ async function createSchema() {
     table.string("username").unique();
     table.string("password");
   });
+  if (await knex.schema.hasTable("addresses")) {
+    return;
+  }
+  await knex.schema.createTable("addresses", (table) => {
+    table.increments("id").primary();
+    table.string("origin_address").unique();
+    table.string("destination_address");
+    table.integer("walktime");
+    table.integer("drivetime");
+    table.integer("owner_id");
+  });
   if (await knex.schema.hasTable("sessions")) {
     return;
   }
   await knex.schema.createTable("sessions", (table) => {
     table.increments("id").primary();
     table.string("token").unique();
+    table.integer("user_id");
     table.string("username");
     table.date("expiresat");
   });
@@ -55,6 +68,9 @@ export const db = {
 
   async getUser(token) {
     let session = await Sessions.query().where("token", token);
+    console.log("SESSION", session);
+    let currentUser = await Users.query().where("id", session[0].user_id);
+    console.log("CURRENTUSER", currentUser);
     if (session.length == 0) {
       return { error: "No session, login/register" };
     }
@@ -74,6 +90,7 @@ export const db = {
     let ins = await Sessions.query().insert({
       token: newSessionToken,
       username: session[0].username,
+      user_id: session[0].user_id,
       expiresat: expiresAt,
     });
     user.session_token = newSessionToken;
@@ -87,7 +104,6 @@ export const db = {
     let user = await Users.query().where("username", username);
     user = user[0];
     if (user != undefined) {
-      console.log(password, user.password);
       let passwordIsValid = await bcrypt.compare(password, user.password);
       if (passwordIsValid) {
         const sessionToken = uuid.v4();
@@ -100,6 +116,7 @@ export const db = {
         let ins = await Sessions.query().insert({
           token: sessionToken,
           username: username,
+          user_id: user.id,
           expiresat: expiresAt,
         });
 
@@ -115,5 +132,15 @@ export const db = {
   async logoutUser(session) {
     let del = await Sessions.query().deleteById(session);
     return del;
+  },
+
+  async addAddress(data) {
+    let currentUser = await Sessions.query().where("token", data.session_token);
+    currentUser = currentUser[0];
+    console.log(currentUser, "CURRENT USER");
+    data.addyData.owner_id = currentUser.user_id;
+    console.log(data.addyData, "SADNJ");
+    let ins = await Addresses.query().insert(data.addyData);
+    return ins.toJSON();
   },
 };

@@ -26,7 +26,19 @@ export const actions = {
     let data = await a.json();
     if (data.origin_addresses == "Carolina Beach, NC 28428, USA") {
       return { error: "Address not found" };
+    } else {
+      console.log(data, "89232389un");
+      let addyData = {
+        addyData: {
+          origin_address: data.origin_addresses[0],
+          destination_address: data.destination_addresses[0],
+          walktime: data.rows[0].elements[0].duration.text,
+        },
+
+        session_token: event.cookies.get("session_token"),
+      };
+      let joe = db.addAddress(addyData);
+      return joe;
     }
-    return data;
   },
 };

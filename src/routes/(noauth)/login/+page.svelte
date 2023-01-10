@@ -16,7 +16,7 @@
       {form?.error}
     </div>
   {/if}
-  <div class="container-lg">
+  <div class="container-lg mt-5 pt-5">
     <div class="row justify-content-center">
       <div class="col-7">
         <form method="POST">

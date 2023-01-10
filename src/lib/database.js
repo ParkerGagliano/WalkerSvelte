@@ -61,8 +61,9 @@ export const db = {
     }
   },
   async getAddresses(id) {
-    let addresses = await Addresses.query().where("owner_id", id);
-
+    let addresses = await (
+      await Addresses.query().where("owner_id", id)
+    ).reverse();
     return addresses;
   },
 
@@ -78,10 +79,10 @@ export const db = {
 
   async getUser(token) {
     let session = await Sessions.query().where("token", token);
-    let currentUser = await Users.query().where("id", session[0].user_id);
     if (session.length == 0) {
       return { error: "No session, login/register" };
     }
+    let currentUser = await Users.query().where("id", session[0].user_id);
     if (session[0].expiresat < new Date()) {
       let del = await Sessions.query().deleteById(session[0].id);
       return { error: "Session expired" };

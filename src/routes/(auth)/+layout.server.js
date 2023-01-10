@@ -12,6 +12,6 @@ export async function load({ cookies }) {
     throw redirect(307, "/login");
   }
   console.log(temp);
-  cookies.set("session_token", temp.session_token, { path: "./" });
+  cookies.set("session_token", temp.session_token, { path: "/" });
   return temp;
 }

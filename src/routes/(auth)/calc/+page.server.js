@@ -7,10 +7,16 @@ import { fade } from "svelte/transition";
 export async function load({ cookies }) {
   const sessionid = cookies.get("session_token");
   let session = await db.getSession(sessionid);
-  let addresses = await db.getAddresses(session.user_id);
   if (!sessionid) {
     throw redirect(307, "/login");
   }
+  if (session.error) {
+    throw redirect(307, "/login");
+  }
+  if (session.expiresat < new Date()) {
+    throw redirect(307, "/login");
+  }
+  let addresses = await db.getAddresses(session.user_id);
 
   return { addresses: addresses ?? [] };
 }
@@ -18,7 +24,7 @@ export async function load({ cookies }) {
 export const actions = {
   create: async ({ cookies, request }) => {
     let check = await db.getUser(cookies.get("session_token"));
-    if (check.error == "Session expired") {
+    if (check.error) {
       throw redirect(307, "/login");
     }
     let fd = await request.formData();

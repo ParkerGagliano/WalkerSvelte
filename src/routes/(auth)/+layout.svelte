@@ -1,7 +1,13 @@
 <script>
+  import "../../app.scss";
   /** @type {import('./$types').LayoutServerData} */
   export let data;
-  console.log(data);
+
+  if (data.error) {
+    console.log(data.error);
+  }
+
+  function flashError() {}
 </script>
 
 <nav class="navbar navbar-expand-sm navbar-light bg-light">
@@ -30,12 +36,16 @@
           ">Calculate</a
           >
         </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/login">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/logout">Logout</a>
-        </li>
+        {#if data.username}
+          <li class="nav-item">
+            <a class="nav-link active" href="/logout">Logout</a>
+          </li>
+        {:else}
+          <li class="nav-item">
+            <a class="nav-link active" href="/login">Login</a>
+          </li>
+        {/if}
+
         <li class="nav-item">
           <a class="nav-link active" href="/login">{data.username}</a>
         </li>

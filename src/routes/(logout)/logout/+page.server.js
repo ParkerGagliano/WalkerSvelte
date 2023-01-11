@@ -1,4 +1,5 @@
 import { db } from "$lib/database";
+import { redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').PageServerLoad} */
 export async function load({ cookies }) {
@@ -7,10 +8,7 @@ export async function load({ cookies }) {
   }
   const sessionid = cookies.get("session_token");
   let temp = await db.logoutUser(sessionid);
-  if (temp == 0) {
-    cookies.set("session_token", "", { path: "/", expires: new Date() });
-    return { message: "Logged out successfully" };
-  }
-
-  return { error: "Error logging out" };
+  console.log("DNJASIKDKHJSAXZBDASHJKLBDSJAHKLBDSAHJKDSBAJKH");
+  cookies.set("session_token", "", { path: "/", expires: new Date() });
+  throw redirect(307, "/login");
 }

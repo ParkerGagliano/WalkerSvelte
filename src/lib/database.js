@@ -7,6 +7,9 @@ import Addresses from "./models/addresses";
 import uuid from "uuid";
 import bcrypt from "bcrypt";
 
+//TODO
+// Delete sessions that are expired
+
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 let init = false;
@@ -77,6 +80,9 @@ export const db = {
 
   async getSession(token) {
     let session = await Sessions.query().where("token", token);
+    if (session.length == 0) {
+      return { error: "No session, login/register" };
+    }
     return session[0].toJSON();
   },
 
@@ -86,9 +92,11 @@ export const db = {
   },
 
   async getUser(token) {
+    let testing = await Sessions.query();
+    console.log(testing);
     let session = await Sessions.query().where("token", token);
     if (session.length == 0) {
-      return { error: "No session, login/register" };
+      return { error: "No session" };
     }
     let currentUser = await Users.query().where("id", session[0].user_id);
     if (session[0].expiresat < new Date()) {

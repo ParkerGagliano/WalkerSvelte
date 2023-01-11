@@ -64,7 +64,14 @@ export const db = {
     let addresses = await (
       await Addresses.query().where("owner_id", id)
     ).reverse();
-    return addresses;
+    let final = addresses.map((element) => {
+      return {
+        origin_address: element.origin_address,
+        destination_address: element.destination_address,
+        walktime: element.walktime,
+      };
+    });
+    return final;
   },
 
   async getSession(token) {

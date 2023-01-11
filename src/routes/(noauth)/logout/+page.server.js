@@ -8,7 +8,7 @@ export async function load({ cookies }) {
   const sessionid = cookies.get("session_token");
   let temp = await db.logoutUser(sessionid);
   if (temp == 0) {
-    cookies.set("session_token", "", { path: "./", expires: new Date() });
+    cookies.set("session_token", "", { path: "/", expires: new Date() });
     return { message: "Logged out successfully" };
   }
 

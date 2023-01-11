@@ -1,6 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
+  import { enhance } from "$app/forms";
   /** @type {import('./$types').PageServerData} */
   export let data;
   let dataready = false;
@@ -19,7 +20,12 @@
       <p class="text-center">Time to closest public beach access</p>
     </div>
   </div>
-  <form class="form-group mt-4 mb-5" method="POST">
+  <form
+    class="form-group mt-4 mb-5"
+    action="?/create"
+    method="POST"
+    use:enhance
+  >
     <div class="row justify-content-center">
       <div class="col-auto">
         <input class="form-control" type="text" name="address" />
@@ -33,33 +39,31 @@
     </div>
   </form>
   <div class="container">
-    {#if data?.addresses}
-      {#each data.addresses as address, i}
-        <div
-          in:fly={{ duration: 250 * i }}
-          class="row mt-3 rounded-pill bg-primary"
-        >
-          <div class="col">
-            <p class="text-center">{address.origin_address}</p>
-          </div>
-          <div class="col">
-            <p class="text-center">{address.destination_address}</p>
-          </div>
-          <div class="col-3">
-            <div class="row">
-              <div class="col">
-                <p class="text-center">Walk</p>
-              </div>
+    {#each data.addresses as address, i}
+      <div
+        in:fly={{ x: 100, duration: 250 }}
+        class="row mt-3 rounded-pill bg-primary"
+      >
+        <div class="col">
+          <p class="text-center">{address.origin_address}</p>
+        </div>
+        <div class="col">
+          <p class="text-center">{address.destination_address}</p>
+        </div>
+        <div class="col-3">
+          <div class="row">
+            <div class="col">
+              <p class="text-center">Walk</p>
             </div>
-            <div class="row">
-              <div class="col">
-                <p class="text-center">{address.walktime}</p>
-              </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <p class="text-center">{address.walktime}</p>
             </div>
           </div>
         </div>
-      {/each}
-    {/if}
+      </div>
+    {/each}
   </div>
   {#if form?.walktime}
     <h1>{form?.walktime} walk</h1>

@@ -8,28 +8,20 @@ export async function load({ cookies }) {
   const sessionid = cookies.get("session_token");
   let session = await db.getSession(sessionid);
   let addresses = await db.getAddresses(session.user_id);
-  let temp = addresses.map((element) => {
-    return {
-      origin_address: element.origin_address,
-      destination_address: element.destination_address,
-      walktime: element.walktime,
-    };
-  });
-  console.log(temp, "ADDRESSES");
   if (!sessionid) {
     throw redirect(307, "/login");
   }
 
-  return { addresses: temp };
+  return { addresses: addresses ?? [] };
 }
 /** @type {import('./$types').Actions} */
 export const actions = {
-  default: async (event) => {
-    let check = await db.getUser(event.cookies.get("session_token"));
+  create: async ({ cookies, request }) => {
+    let check = await db.getUser(cookies.get("session_token"));
     if (check.error == "Session expired") {
       throw redirect(307, "/login");
     }
-    let fd = await event.request.formData();
+    let fd = await request.formData();
     let address = fd.get("address");
     console.log(address);
     let final = address.split(" ");
@@ -73,7 +65,7 @@ export const actions = {
           walktime: data.rows[0].elements[smallest.index].duration.text,
         },
 
-        session_token: event.cookies.get("session_token"),
+        session_token: cookies.get("session_token"),
       };
       let joe = db.addAddress(addyData);
       return joe;

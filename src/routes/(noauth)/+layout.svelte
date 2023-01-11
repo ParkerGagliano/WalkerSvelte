@@ -15,14 +15,19 @@
   function flashError() {
     setTimeout(() => {
       data.error = "";
-    }, 3000);
+    }, 2600);
   }
 </script>
 
 {#if ready === true}
-  <div class="row" style="height: 10vh">
+  <div class="row justify-content-center" style="height: 10vh">
     {#if data.error}
-      <h1 transition:fly={{ x: 200 }}>{data.error}</h1>
+      <div
+        transition:fly={{ y: -200 }}
+        class="col-6 border rounded border-danger"
+      >
+        <h5 class="text-center pb-0 mb-0 mt-2">{data.error}</h5>
+      </div>
     {/if}
   </div>
 {/if}

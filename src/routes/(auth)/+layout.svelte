@@ -24,9 +24,9 @@
     >
       <span class="navbar-toggler-icon" />
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
-        <li class="nav-item ">
+    <div class="collapse navbar-collapse   " id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-lg-0 align-items-center">
+        <li class="nav-item  ">
           <a class="nav-link active " aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
@@ -45,10 +45,11 @@
             <a class="nav-link active" href="/login">Login</a>
           </li>
         {/if}
-
-        <li class="nav-item">
-          <a class="nav-link active" href="/login">{data.username}</a>
-        </li>
+        {#if data.username}
+          <li class="nav-item">
+            <a class="nav-link active" href="/login">{data.username}</a>
+          </li>
+        {/if}
       </ul>
     </div>
   </div>

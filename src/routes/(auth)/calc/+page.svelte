@@ -3,14 +3,34 @@
   import { fly } from "svelte/transition";
   import { enhance } from "$app/forms";
   import Addresses from "$lib/models/addresses";
+  let error = false;
   /** @type {import('./$types').PageServerData} */
   export let data;
   let dataready = false;
   /** @type {import('./$types').ActionData} */
   export let form;
+  $: if (form?.error) {
+    flashError();
+  }
+
+  function flashError() {
+    error = true;
+    setTimeout(() => {
+      error = false;
+    }, 2600);
+  }
 </script>
 
 <div class="container-fluid">
+  <div class="row justify-content-center" style="min-height: 70px">
+    {#if error == true}
+      <div class="col-6">
+        <div transition:fly={{ y: -200 }} class="border rounded border-danger">
+          <h5 class="text-center pb-0 mb-0 mt-2">{form?.error}</h5>
+        </div>
+      </div>
+    {/if}
+  </div>
   <div class="row">
     <div class="col">
       <h1 class="text-center mt-3">Walk Time Calculator</h1>

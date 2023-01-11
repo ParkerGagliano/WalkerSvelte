@@ -39,7 +39,7 @@
     </div>
   </form>
   <div class="container">
-    {#each data.addresses as address, i}
+    {#each [...data.addresses] as address, i}
       <div
         in:fly={{ x: 100, duration: 250 }}
         class="row mt-3 rounded-pill bg-primary"

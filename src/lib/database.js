@@ -61,7 +61,9 @@ export const db = {
     }
   },
   async getAddresses(id) {
-    let addresses = await await Addresses.query().where("owner_id", id);
+    let addresses = await await Addresses.query()
+      .where("owner_id", id)
+      .orderBy("id", "desc");
 
     let final = addresses.map((element) => {
       return {

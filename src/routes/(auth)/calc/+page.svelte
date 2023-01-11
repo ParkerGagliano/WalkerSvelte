@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
   import { enhance } from "$app/forms";
+  import Addresses from "$lib/models/addresses";
   /** @type {import('./$types').PageServerData} */
   export let data;
   let dataready = false;
@@ -39,7 +40,7 @@
     </div>
   </form>
   <div class="container">
-    {#each [...data.addresses] as address, i}
+    {#each data.addresses as address (address.origin_address)}
       <div
         in:fly={{ x: 100, duration: 250 }}
         class="row mt-3 rounded-pill bg-primary"

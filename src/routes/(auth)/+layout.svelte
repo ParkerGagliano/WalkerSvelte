@@ -6,6 +6,14 @@
   if (data.error) {
     console.log(data.error);
   }
+  function handleNavToggle() {
+    const nav = document.getElementById("navbarSupportedContent");
+    if (nav.classList.contains("show")) {
+      nav.classList.remove("show");
+    } else {
+      nav.classList.add("show");
+    }
+  }
 
   function flashError() {}
 </script>
@@ -14,6 +22,9 @@
   <div class="container-fluid">
     <a class="navbar-brand" href="#">Walker</a>
     <button
+      on:click={() => {
+        handleNavToggle();
+      }}
       class="navbar-toggler"
       type="button"
       data-bs-toggle="collapse"

@@ -12,8 +12,16 @@
   let dataready = false;
   /** @type {import('./$types').ActionData} */
   export let form;
+  let hovering = false;
   $: if (form?.error) {
     flashError();
+  }
+
+  function handleMouseOver() {
+    hovering = true;
+  }
+  function handleMouseOut() {
+    hovering = false;
   }
 
   function flashError() {
@@ -22,6 +30,8 @@
       error = false;
     }, 2600);
   }
+
+  $: console.log(hovering);
 </script>
 
 <div class="container-fluid">

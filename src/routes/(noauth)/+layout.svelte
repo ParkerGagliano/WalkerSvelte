@@ -17,10 +17,14 @@
       data.error = "";
     }, 2600);
   }
+  let x;
+  $: console.log(x);
 </script>
 
+<svelte:window bind:outerWidth={x} />
+
 {#if ready === true}
-  <div class="row justify-content-center" style="height: 10vh">
+  <div class="row justify-content-center" style="height: 40px">
     {#if data.error}
       <div
         transition:fly={{ y: -200 }}

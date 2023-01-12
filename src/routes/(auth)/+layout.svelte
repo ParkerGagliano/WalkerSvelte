@@ -24,8 +24,11 @@
     >
       <span class="navbar-toggler-icon" />
     </button>
-    <div class="collapse navbar-collapse   " id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-lg-0 align-items-center">
+    <div
+      class="collapse navbar-collapse  justify-content-between"
+      id="navbarSupportedContent"
+    >
+      <ul class="navbar-nav ">
         <li class="nav-item  ">
           <a class="nav-link active " aria-current="page" href="/">Home</a>
         </li>
@@ -36,6 +39,8 @@
           ">Calculate</a
           >
         </li>
+      </ul>
+      <ul class="navbar-nav ">
         {#if data.username}
           <li class="nav-item">
             <a class="nav-link active" href="/logout">Logout</a>
@@ -57,4 +62,5 @@
 {#if data.error}
   <h1>{data.error}</h1>
 {/if}
+
 <slot />

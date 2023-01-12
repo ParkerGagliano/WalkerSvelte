@@ -1,8 +1,11 @@
 <script>
   import { onMount } from "svelte";
   import { fly } from "svelte/transition";
+  import { fade } from "svelte/transition";
   import { enhance } from "$app/forms";
+  import Switch from "$lib/Switch.svelte";
   import Addresses from "$lib/models/addresses";
+  let showDesAddress = false;
   let error = false;
   /** @type {import('./$types').PageServerData} */
   export let data;
@@ -57,6 +60,9 @@
       <div class="col-auto">
         <button class="btn btn-success" type="submit">Calculate</button>
       </div>
+      <div class="col-auto">
+        <Switch bind:checked={showDesAddress} color="#2196F3" class="mt-2" />
+      </div>
     </div>
   </form>
   <div class="container">
@@ -65,21 +71,31 @@
         in:fly={{ x: 100, duration: 250 }}
         class="row mt-3 rounded-pill bg-primary"
       >
-        <div class="col">
-          <p class="text-center">{address.origin_address}</p>
-        </div>
-        <div class="col">
-          <p class="text-center">{address.destination_address}</p>
-        </div>
-        <div class="col-3">
-          <div class="row">
+        <div class="col-12">
+          <div class="row mt-3">
             <div class="col">
-              <p class="text-center">Walk</p>
+              <p class="text-center">{address.origin_address}</p>
             </div>
-          </div>
-          <div class="row">
             <div class="col">
-              <p class="text-center">{address.walktime}</p>
+              {#if showDesAddress == true}
+                <p in:fade class="text-center">
+                  {address.destination_address}
+                </p>
+              {:else}
+                <p in:fade class="text-center">Closest beach access</p>
+              {/if}
+            </div>
+            <div class="col-3">
+              <div class="row">
+                <div class="col">
+                  <p class="text-center">Walk</p>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <p class="text-center">{address.walktime}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -9,6 +9,8 @@ import bcrypt from "bcrypt";
 
 //TODO
 // Delete sessions that are expired
+// Add delte to all items
+// fix coordinates of beach accesses
 
 const knex = Knex(knexConfig.development);
 Model.knex(knex);

@@ -8,9 +8,12 @@ import uuid from "uuid";
 import bcrypt from "bcrypt";
 
 //TODO
-// Delete sessions that are expired
+// Delete sessions that are expired AAA
 // Add delte to all items
 // fix coordinates of beach accesses
+// Fix homepage vs calc auth 
+// look into passing auth status from layout/navbar to other things
+
 
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
@@ -112,7 +115,8 @@ export const db = {
     // renew the expiry time
     const now = new Date();
     const expiresAt = new Date(+now + 120 * 1000);
-    Sessions.query().deleteById(session[0].id);
+    let del2 = await Sessions.query().deleteById(session[0].id);
+    console.log(del2)
     // add the new session to our map, and delete the old session
     let ins = await Sessions.query().insert({
       token: newSessionToken,
@@ -121,7 +125,6 @@ export const db = {
       expiresat: expiresAt,
     });
     user.session_token = newSessionToken;
-
     // set the session token to the new value we generated, with a
     // renewed expiration time
     return user;

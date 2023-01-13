@@ -49,7 +49,6 @@ export const actions = {
       { headers: { mode: "no-cors" } }
     );
     let data = await a.json();
-    console.log(data.rows[0].elements, "ELEEM");
     let smallest = { value: Infinity, index: 0 };
     let temp2 = data.rows[0].elements.map((element, a) => {
       if (element.distance.value < smallest.value) {
@@ -58,12 +57,9 @@ export const actions = {
       }
     });
 
-    console.log("DSNMALKDNALJ", smallest.index);
-
     if (data.origin_addresses == "Carolina Beach, NC 28428, USA") {
       return { error: "Address not found" };
     } else {
-      console.log(data, "89232389un");
       let addyData = {
         addyData: {
           origin_address: data.origin_addresses[0],

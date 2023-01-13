@@ -70,8 +70,5 @@
     </div>
   </div>
 </nav>
-{#if data.error}
-  <h1>{data.error}</h1>
-{/if}
 
 <slot />

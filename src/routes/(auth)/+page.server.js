@@ -1,9 +1,13 @@
 import { SECRET_API_KEY } from "$env/static/private";
 /** @type {import('./$types').Actions} */
 export const actions = {
-    create: async ({ cookies, request }) => {
+    default: async ({ cookies, request }) => {
+
         let fd = await request.formData();
         let address = fd.get("address");
+        if (!address) {
+            return
+        }
         let final = address.split(" ");
         let addy = "";
         final.forEach((element) => {

@@ -3,22 +3,38 @@
     import { fly } from "svelte/transition";
     import { enhance } from "$app/forms";
     import { onMount } from "svelte";
+    let fdata = { addyData: null };
     let ready = false;
+    let error = false;
     onMount(() => {
         ready = true;
     });
+    let showing = true;
     /** @type {import('./$types').ActionData} */
     export let form;
-    $: console.log(form);
+    $: if (form) {
+        refreshAddress();
+    }
 
+    $: if (form?.error) {
+        flashError();
+    }
+    function refreshAddress() {
+        fdata.addyData = null;
+        setTimeout(() => {
+            fdata.addyData = form.addyData;
+        }, 10);
+    }
     if (form?.error) {
         flashError();
     }
+    $: console.log(fdata);
 
     function flashError() {
+        error = true;
         setTimeout(() => {
-            form.error = "";
-        }, 2600);
+            error = false;
+        }, 2000);
     }
 </script>
 
@@ -71,15 +87,15 @@
                 </p>
             </div>
         </div>
-        <form
-            class="form-group mt-4 mb-5"
-            action="?/create"
-            method="POST"
-            use:enhance
-        >
+        <form class="form-group mt-4 mb-5" method="POST" use:enhance>
             <div class="row justify-content-center">
                 <div class="col-auto">
-                    <input class="form-control" type="text" name="address" />
+                    <input
+                        class="form-control"
+                        required
+                        type="text"
+                        name="address"
+                    />
                 </div>
                 <div class="col-auto">
                     <h5 class="m-0 mt-2 p-0">Carolina Beach, NC</h5>
@@ -90,8 +106,18 @@
                     >
                 </div>
             </div>
+            {#if error}
+                <div class="row mt-3">
+                    <div class="col">
+                        <div class="alert alert-danger" out:fade>
+                            {form?.error}
+                        </div>
+                    </div>
+                </div>
+            {/if}
         </form>
-        {#if form?.addyData}
+
+        {#if fdata.addyData != null}
             <div
                 in:fly={{ x: 100, duration: 250 }}
                 class="row mt-3 rounded-pill bg-primary"
@@ -100,12 +126,12 @@
                     <div class="row mt-3">
                         <div class="col">
                             <p class="text-center">
-                                {form.addyData.origin_address}
+                                {fdata.addyData.origin_address}
                             </p>
                         </div>
                         <div class="col">
-                            <p in:fade class="text-center">
-                                {form.addyData.destination_address}
+                            <p class="text-center">
+                                {fdata.addyData.destination_address}
                             </p>
                         </div>
                         <div class="col-3">
@@ -117,7 +143,7 @@
                             <div class="row">
                                 <div class="col">
                                     <p class="text-center">
-                                        {form.addyData.walktime}
+                                        {fdata.addyData.walktime}
                                     </p>
                                 </div>
                             </div>
@@ -125,7 +151,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row mt-5">
                 <div class="col">
                     <p class="text-center" in:fade>
                         Want to save a history of addresses? <a href="/register"

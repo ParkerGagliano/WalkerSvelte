@@ -32,10 +32,15 @@
   </div>
 
   <div class="container-lg mt-5 pt-5" style="min-height:80vh">
+    <div class="row">
+      <div class="col">
+        <h5 class="text-center">Login</h5>
+      </div>
+    </div>
     <div class="row justify-content-center">
       <div class="col-7">
         <form method="POST" use:enhance>
-          <div class="form-group">
+          <div class="form-group mt-2">
             <label for="exampleInputEmail1">Username</label>
             <input
               name="username"
@@ -47,7 +52,7 @@
               required
             />
           </div>
-          <div class="form-group">
+          <div class="form-group mt-2">
             <label for="exampleInputPassword1">Password</label>
             <input
               name="password"
@@ -58,7 +63,9 @@
               required
             />
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary mx-auto d-block mt-3"
+            >Submit</button
+          >
         </form>
       </div>
     </div>

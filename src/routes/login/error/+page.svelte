@@ -50,6 +50,11 @@
     {/if}
   </div>
   <div class="container-lg mt-5 pt-5" style="min-height:80vh">
+    <div class="row">
+      <div class="col">
+        <h5 class="text-center">Login</h5>
+      </div>
+    </div>
     <div class="row justify-content-center">
       <div class="col-7">
         <form method="POST" use:enhance>

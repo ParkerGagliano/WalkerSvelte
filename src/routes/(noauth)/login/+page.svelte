@@ -1,6 +1,9 @@
 <script>
   import { onMount } from "svelte/internal";
   import { fly } from "svelte/transition";
+
+  /** @type {import('./$types').PageServerData} */
+  export let data;
   /** @type {import('./$types').ActionData} */
   export let form;
   console.log(form);

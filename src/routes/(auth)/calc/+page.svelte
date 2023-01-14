@@ -79,7 +79,7 @@
   <div class="container">
     {#each data.addresses as address (address.id)}
       <div
-        out:fade|local
+        out:fly|local={{ x: -100, duration: 250 }}
         in:fly={{ x: 100, duration: 250 }}
         class="row mt-3 rounded-pill bg-primary"
       >

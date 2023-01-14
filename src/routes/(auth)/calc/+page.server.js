@@ -4,7 +4,9 @@ import { redirect } from "@sveltejs/kit";
 import { fade } from "svelte/transition";
 
 /** @type {import('./$types').PageServerLoad}Load} */
-export async function load({ cookies }) {
+export async function load({ cookies, parent }) {
+  let test = await parent();
+  console.log(test, "TEST");
   const sessionid = cookies.get("session_token");
   let session = await db.getSession(sessionid);
   if (!sessionid) {
@@ -14,11 +16,10 @@ export async function load({ cookies }) {
     throw redirect(307, "/login");
   }
   if (session.expiresat < new Date()) {
+    let del = await db.deleteSession(session.id);
     throw redirect(307, "/login");
   }
-  console.log("SESSSSSIION", session);
   let addresses = await db.getAddresses(session.user_id);
-
   return { addresses: addresses ?? [] };
 }
 /** @type {import('./$types').Actions} */
@@ -30,9 +31,9 @@ export const actions = {
     //}
     let fd = await request.formData();
     let address = fd.get("address");
-    console.log(address);
+
     let final = address.split(" ");
-    console.log(final);
+
     let addy = "";
     final.forEach((element) => {
       if (element == final[final.length - 1]) {
@@ -43,7 +44,7 @@ export const actions = {
     });
     let destinations =
       "Salt+Marsh+Ln,Carolina+Beach,NC|Periwinkle+Ln,Carolina+Beach,NC|Clam+Shell+Ln,Carolina+Beach,NC+28428|Ocean+Blvd,Carolina+Beach,NC|Sandpiper+Ln,Carolina+Beach,NC";
-    console.log(addy);
+
     let a = await fetch(
       `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${addy},carolina+beach,NC&destinations=34.027134,-77.894682|${destinations}&mode=walking&key=${SECRET_API_KEY}
       `,
@@ -70,7 +71,6 @@ export const actions = {
         session_token: cookies.get("session_token"),
       };
       let joe = await db.addAddress(addyData);
-      console.log(joe, "DNJMKSAKJLDANJSKD");
       return joe;
     }
   },

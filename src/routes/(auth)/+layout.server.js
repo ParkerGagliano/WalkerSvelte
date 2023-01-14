@@ -11,7 +11,7 @@ export async function load({ cookies }) {
   if (temp.error == "Session expired") {
     throw redirect(307, "/login");
   }
-  console.log(temp);
+
   cookies.set("session_token", temp.session_token, { path: "/" });
   return temp;
 }

@@ -10,7 +10,7 @@ import bcrypt from "bcrypt";
 //CALLING GETRUSER THAT DELETES OLD TOKEN THEN CALLS ADD ADDY THAT NEEDS OLDER ONE THATS DELETED
 //TODO
 // Delete sessions that are expired AAA
-// Add delte to all items
+// Add delte to all items DONE
 // fix coordinates of beach accesses
 // Fix homepage vs calc auth
 // look into passing auth status from layout/navbar to other things
@@ -84,6 +84,9 @@ export const db = {
     return final;
   },
 
+  async deleteSession(data) {
+    let del = await Sessions.query().deleteById(data);
+  },
   async getSession(token) {
     let session = await Sessions.query().where("token", token);
     if (session.length == 0) {

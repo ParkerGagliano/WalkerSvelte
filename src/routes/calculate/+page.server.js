@@ -7,20 +7,20 @@ import { fade } from "svelte/transition";
 export async function load({ cookies, parent }) {
   let test = await parent();
   if (test.error) {
-    throw redirect(307, "/login");
+    throw redirect(307, "/login/error");
   }
   const sessionid = cookies.get("session_token");
 
   if (!sessionid) {
-    throw redirect(307, "/login");
+    throw redirect(307, "/login/error");
   }
   let session = await db.getSession(sessionid);
   if (session.error) {
-    throw redirect(307, "/login");
+    throw redirect(307, "/login/error");
   }
   if (session.expiresat < new Date()) {
     let del = await db.deleteSession(session.id);
-    throw redirect(307, "/login");
+    throw redirect(307, "/login/error");
   }
   let addresses = await db.getAddresses(session.user_id);
   return { addresses: addresses ?? [] };

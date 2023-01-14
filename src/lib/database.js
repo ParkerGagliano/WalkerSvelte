@@ -13,8 +13,10 @@ import bcrypt from "bcrypt";
 // Add delte to all items DONE
 // fix coordinates of beach accesses
 // Fix homepage vs calc auth
-// look into passing auth status from layout/navbar to other things
+// look into passing auth status from layout/navbar to other things BETTER/DONE
 
+//fix login errors
+//use slug on login to define if theres an error or not YES
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 let init = false;
@@ -110,6 +112,7 @@ export const db = {
     let currentUser = await Users.query().where("id", session[0].user_id);
     if (session[0].expiresat < new Date()) {
       let del = await Sessions.query().deleteById(session[0].id);
+      console.log("deleted session");
       //return { error: "Session expired" };
     }
     let user = await Users.query().where("username", session[0].username);
@@ -129,7 +132,8 @@ export const db = {
     });
     user.session_token = newSessionToken;
     let del2 = await Sessions.query().deleteById(session[0].id);
-    console.log(del2);
+
+    console.log("deleted session");
     // set the session token to the new value we generated, with a
     // renewed expiration time
     return user;
@@ -166,6 +170,7 @@ export const db = {
   },
   async logoutUser(session) {
     let del = await Sessions.query().deleteById(session);
+    console.log("deleted session");
     return del;
   },
 

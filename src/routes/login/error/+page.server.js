@@ -9,8 +9,10 @@ export async function load({ cookies, parent }) {
     return { authorized: false, message: "Not Logged In" };
   }
   let cookie = cookies.get("session_token");
+  console.log(cookie, "COOKIE");
   if (cookie) {
     let session = await db.getSession(cookie);
+
     if (session.expiresat > new Date()) {
       throw redirect(307, "/");
     } else {
@@ -33,6 +35,6 @@ export const actions = {
       return user;
     }
     event.cookies.set("session_token", user.session_token, { path: "/" });
-    throw redirect(307, "/calculate");
+    throw redirect(307, "/");
   },
 };

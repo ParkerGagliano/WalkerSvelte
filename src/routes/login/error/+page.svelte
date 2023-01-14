@@ -2,7 +2,8 @@
   import { onMount } from "svelte/internal";
   import { slide } from "svelte/transition";
   import { enhance } from "$app/forms";
-
+  /** @type {import('./$types').PageServerData} */
+  export let data;
   /** @type {import('./$types').ActionData} */
   export let form;
   console.log(form);
@@ -11,7 +12,13 @@
   onMount(() => {
     ready = true;
   });
+  let formerror = false;
+
   $: if (form?.error) {
+    flashFormError();
+  }
+
+  if (data.authorized == false && formerror == false) {
     flashError();
   }
   function flashError() {
@@ -20,17 +27,28 @@
       error = false;
     }, 2600);
   }
+  function flashFormError() {
+    formerror = true;
+    setTimeout(() => {
+      formerror = false;
+    }, 2600);
+  }
 </script>
 
 {#if ready === true}
   <div class="container" style="min-height:10vh">
     {#if error}
       <div transition:slide class="alert alert-danger" role="alert">
+        {data.message}
+      </div>
+    {/if}
+
+    {#if formerror}
+      <div transition:slide class="alert alert-danger" role="alert">
         {form.error}
       </div>
     {/if}
   </div>
-
   <div class="container-lg mt-5 pt-5" style="min-height:80vh">
     <div class="row justify-content-center">
       <div class="col-7">

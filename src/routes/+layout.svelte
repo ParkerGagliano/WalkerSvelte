@@ -1,14 +1,11 @@
 <script>
   import "../app.scss";
-
-  /** @type {import('./$types').LayoutServerData} */
   import { invalidateAll } from "$app/navigation";
   import { goto } from "$app/navigation";
+  /** @type {import('./$types').LayoutServerData} */
   export let data;
 
-  if (data.error) {
-    console.log(data.error);
-  }
+  console.log(data, "DAS");
   function handleNavToggle() {
     const nav = document.getElementById("navbarSupportedContent");
     if (nav.classList.contains("show")) {
@@ -55,7 +52,7 @@
           <li class="nav-item">
             <a
               class="nav-link active"
-              href="/calc
+              href="/calculate
             ">Calculate</a
             >
           </li>
@@ -87,6 +84,8 @@
       </div>
     </div>
   </nav>
+
+  <div class="row" />
 
   <slot />
   <footer>

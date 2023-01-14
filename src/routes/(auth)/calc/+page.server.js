@@ -16,6 +16,7 @@ export async function load({ cookies }) {
   if (session.expiresat < new Date()) {
     throw redirect(307, "/login");
   }
+  console.log("SESSSSSIION", session);
   let addresses = await db.getAddresses(session.user_id);
 
   return { addresses: addresses ?? [] };
@@ -23,10 +24,10 @@ export async function load({ cookies }) {
 /** @type {import('./$types').Actions} */
 export const actions = {
   create: async ({ cookies, request }) => {
-    let check = await db.getUser(cookies.get("session_token"));
-    if (check.error) {
-      throw redirect(307, "/login");
-    }
+    //let check = await db.getUser(cookies.get("session_token"));
+    //if (check.error) {
+    // throw redirect(307, "/login");
+    //}
     let fd = await request.formData();
     let address = fd.get("address");
     console.log(address);
@@ -66,11 +67,16 @@ export const actions = {
           destination_address: data.destination_addresses[smallest.index],
           walktime: data.rows[0].elements[smallest.index].duration.text,
         },
-
         session_token: cookies.get("session_token"),
       };
-      let joe = db.addAddress(addyData);
+      let joe = await db.addAddress(addyData);
+      console.log(joe, "DNJMKSAKJLDANJSKD");
       return joe;
     }
+  },
+  delete: async ({ request, cookies }) => {
+    let data = await request.formData();
+    let res = db.deleteAddress(data.get("id"));
+    return res;
   },
 };

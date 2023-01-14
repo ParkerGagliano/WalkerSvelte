@@ -7,13 +7,13 @@ import Addresses from "./models/addresses";
 import uuid from "uuid";
 import bcrypt from "bcrypt";
 
+//CALLING GETRUSER THAT DELETES OLD TOKEN THEN CALLS ADD ADDY THAT NEEDS OLDER ONE THATS DELETED
 //TODO
 // Delete sessions that are expired AAA
 // Add delte to all items
 // fix coordinates of beach accesses
-// Fix homepage vs calc auth 
+// Fix homepage vs calc auth
 // look into passing auth status from layout/navbar to other things
-
 
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
@@ -69,15 +69,16 @@ export const db = {
     }
   },
   async getAddresses(id) {
-    let addresses = await await Addresses.query()
+    let addresses = await Addresses.query()
       .where("owner_id", id)
       .orderBy("id", "desc");
-
+    console.log(addresses, 429);
     let final = addresses.map((element) => {
       return {
         origin_address: element.origin_address,
         destination_address: element.destination_address,
         walktime: element.walktime,
+        id: element.id,
       };
     });
     return final;
@@ -98,7 +99,7 @@ export const db = {
 
   async getUser(token) {
     let testing = await Sessions.query();
-    console.log(testing);
+    console.log(testing, "TESTING?");
     let session = await Sessions.query().where("token", token);
     if (session.length == 0) {
       return { error: "No session" };
@@ -106,7 +107,7 @@ export const db = {
     let currentUser = await Users.query().where("id", session[0].user_id);
     if (session[0].expiresat < new Date()) {
       let del = await Sessions.query().deleteById(session[0].id);
-      return { error: "Session expired" };
+      //return { error: "Session expired" };
     }
     let user = await Users.query().where("username", session[0].username);
     user = user[0].toJSON();
@@ -115,8 +116,7 @@ export const db = {
     // renew the expiry time
     const now = new Date();
     const expiresAt = new Date(+now + 120 * 1000);
-    let del2 = await Sessions.query().deleteById(session[0].id);
-    console.log(del2)
+
     // add the new session to our map, and delete the old session
     let ins = await Sessions.query().insert({
       token: newSessionToken,
@@ -125,6 +125,8 @@ export const db = {
       expiresat: expiresAt,
     });
     user.session_token = newSessionToken;
+    let del2 = await Sessions.query().deleteById(session[0].id);
+    console.log(del2);
     // set the session token to the new value we generated, with a
     // renewed expiration time
     return user;
@@ -165,8 +167,13 @@ export const db = {
   },
 
   async addAddress(data) {
+    console.log(data.session_token, "SESSION TOKENNN");
     let currentUser = await Sessions.query().where("token", data.session_token);
+    if (currentUser.length == 0) {
+      return { error: "No session" };
+    }
     currentUser = currentUser[0];
+    console.log(currentUser, "CURRENT USER");
     data.addyData.owner_id = currentUser.user_id;
     let addr = await Addresses.query().where(
       "origin_address",
@@ -176,6 +183,16 @@ export const db = {
       return { error: "Address already exists" };
     }
     let ins = await Addresses.query().insert(data.addyData);
+    console.log("INDSIDSNA", ins);
     return ins.toJSON();
+  },
+
+  async deleteAddress(id) {
+    let del = await Addresses.query().deleteById(id);
+    if (del == 0) {
+      return { error: "Address does not exist" };
+    } else {
+      return { success: "Address deleted" };
+    }
   },
 };

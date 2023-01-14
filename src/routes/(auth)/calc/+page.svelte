@@ -9,6 +9,7 @@
   let error = false;
   /** @type {import('./$types').PageServerData} */
   export let data;
+  console.log("DNASJLKDNJSKA-data", data);
   let dataready = false;
   /** @type {import('./$types').ActionData} */
   export let form;
@@ -34,7 +35,7 @@
   $: console.log(hovering);
 </script>
 
-<div class="container-fluid">
+<div class="container-fluid" style="min-height: 100vh">
   <div class="row justify-content-center" style="min-height: 70px">
     {#if error == true}
       <div class="col-6">
@@ -62,7 +63,7 @@
   >
     <div class="row justify-content-center">
       <div class="col-auto">
-        <input class="form-control" type="text" name="address" />
+        <input class="form-control" required type="text" name="address" />
       </div>
       <div class="col-auto">
         <h5 class="m-0 mt-2 p-0">Carolina Beach, NC</h5>
@@ -76,13 +77,14 @@
     </div>
   </form>
   <div class="container">
-    {#each data.addresses as address (address.origin_address)}
+    {#each data.addresses as address (address.id)}
       <div
+        out:fade|local
         in:fly={{ x: 100, duration: 250 }}
         class="row mt-3 rounded-pill bg-primary"
       >
-        <div class="col-12">
-          <div class="row mt-3">
+        <div class="col-12 p-3">
+          <div class="row">
             <div class="col">
               <p class="text-center">{address.origin_address}</p>
             </div>
@@ -107,16 +109,18 @@
                 </div>
               </div>
             </div>
+            <form
+              use:enhance
+              class="col-2 d-flex"
+              action="?/delete"
+              method="POST"
+            >
+              <input type="hidden" name="id" value={address.id} />
+              <button class="btn btn-danger my-auto mx-auto">Delete</button>
+            </form>
           </div>
         </div>
       </div>
     {/each}
   </div>
-  {#if form?.walktime}
-    <h1>{form?.walktime} walk</h1>
-  {/if}
-
-  {#if form?.error}
-    <h1>{form?.error}</h1>
-  {/if}
 </div>

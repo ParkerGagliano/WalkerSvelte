@@ -6,7 +6,12 @@ import { redirect } from "@sveltejs/kit";
 import { db } from "$lib/database";
 
 /** @type {import('./$types').PageServerLoad}Load} */
-export async function load({ cookies }) {
+export async function load({ cookies, parent }) {
+  let test = await parent();
+  console.log(test, "TEST");
+  if (test.authorized == false) {
+    return { authorized: false, message: "Not Logged In" };
+  }
   let cookie = cookies.get("session_token");
   console.log(cookie, "COOKIE");
   if (cookie) {

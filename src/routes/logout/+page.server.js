@@ -2,7 +2,7 @@ import { db } from "$lib/database";
 import { redirect } from "@sveltejs/kit";
 
 /** @type {import('./$types').PageServerLoad} */
-export async function load({ cookies }) {
+export async function load({ cookies, parent }) {
   if (cookies.get("session_token") == undefined) {
     return { error: "Not Logged In" };
   }

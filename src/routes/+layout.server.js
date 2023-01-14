@@ -5,11 +5,13 @@ import { redirect } from "@sveltejs/kit";
 export async function load({ cookies }) {
   const sessionid = cookies.get("session_token");
   if (!sessionid) {
-    return { error: "Not Logged In" };
+    return { authorized: false, message: "No session token" };
   }
   let temp = await db.getUser(sessionid);
-
-  console.log(temp);
+  if (temp.error == "Session expired") {
+    return { authorized: false, message: "Session expired" };
+  }
   cookies.set("session_token", temp.session_token, { path: "/" });
+  temp.authorized = true;
   return temp;
 }

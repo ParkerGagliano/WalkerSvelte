@@ -6,12 +6,15 @@ import { fade } from "svelte/transition";
 /** @type {import('./$types').PageServerLoad}Load} */
 export async function load({ cookies, parent }) {
   let test = await parent();
-  console.log(test, "TEST");
+  if (test.error) {
+    throw redirect(307, "/login");
+  }
   const sessionid = cookies.get("session_token");
-  let session = await db.getSession(sessionid);
+
   if (!sessionid) {
     throw redirect(307, "/login");
   }
+  let session = await db.getSession(sessionid);
   if (session.error) {
     throw redirect(307, "/login");
   }

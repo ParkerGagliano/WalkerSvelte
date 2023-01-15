@@ -4,7 +4,7 @@ import { Model } from "objection";
 import Sessions from "./models/sessions";
 import Users from "./models/users";
 import Addresses from "./models/addresses";
-import uuid from "uuid";
+import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 
 //CALLING GETRUSER THAT DELETES OLD TOKEN THEN CALLS ADD ADDY THAT NEEDS OLDER ONE THATS DELETED
@@ -123,7 +123,7 @@ export const db = {
     }
     let user = await Users.query().where("username", session[0].username);
     user = user[0].toJSON();
-    const newSessionToken = uuid.v4();
+    const newSessionToken = uuidv4();
 
     // renew the expiry time
     const now = new Date();
@@ -151,7 +151,7 @@ export const db = {
     if (user != undefined) {
       let passwordIsValid = await bcrypt.compare(password, user.password);
       if (passwordIsValid) {
-        const sessionToken = uuid.v4();
+        const sessionToken = uuidv4();
         // set the expiry time as 120s after the current time
         const now = new Date();
         const expiresAt = new Date(+now + 120 * 1000);

@@ -65,14 +65,23 @@ export const actions = {
     if (data.origin_addresses == "Carolina Beach, NC 28428, USA") {
       return { error: "Address not found" };
     } else {
+      destinations = data.destination_addresses[smallest.index];
+      let drivetime = await fetch(
+        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${addy},carolina+beach,NC&destinations=34.027134,-77.894682|${destinations}&mode=drive&key=${SECRET_API_KEY}
+        `,
+        { headers: { mode: "no-cors" } }
+      );
+      let d = await drivetime.json();
       let addyData = {
         addyData: {
           origin_address: data.origin_addresses[0],
           destination_address: data.destination_addresses[smallest.index],
           walktime: data.rows[0].elements[smallest.index].duration.text,
+          drivetime: d.rows[0].elements[0].duration.text,
         },
         session_token: cookies.get("session_token"),
       };
+      console.log(addyData);
       let joe = await db.addAddress(addyData);
       return joe;
     }

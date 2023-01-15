@@ -25,7 +25,7 @@ export const actions = {
       { headers: { mode: "no-cors" } }
     );
     let data = await a.json();
-    console.log(data);
+
     let smallest = { value: Infinity, index: 0 };
     let temp2 = data.rows[0].elements.map((element, a) => {
       if (element.distance.value < smallest.value) {

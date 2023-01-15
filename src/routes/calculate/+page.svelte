@@ -68,10 +68,12 @@
       <div class="col-auto">
         <h5 class="m-0 mt-2 p-0">Carolina Beach, NC</h5>
       </div>
-      <div class="col-auto">
-        <button class="btn btn-success" type="submit">Calculate</button>
+      <div class="mt-4 mt-sm-0 col-12 col-sm-auto">
+        <button class="btn btn-success d-block mx-auto" type="submit"
+          >Calculate</button
+        >
       </div>
-      <div class="col-auto">
+      <div class="col-12 col-sm-auto">
         <Switch bind:checked={showDesAddress} color="#2196F3" class="mt-2" />
       </div>
     </div>
@@ -85,7 +87,7 @@
       >
         <div class="col-12 p-3">
           <div class="row">
-            <div class="col">
+            <div class="col-12 col-sm-3">
               <p class="text-center">{address.origin_address}</p>
             </div>
             <div class="col">
@@ -97,21 +99,40 @@
                 <p in:fade class="text-center">Closest beach access</p>
               {/if}
             </div>
-            <div class="col-3">
+            <div class="col-12 col-sm-3">
               <div class="row">
                 <div class="col">
-                  <p class="text-center">Walk</p>
+                  <div class="col">
+                    <div class="row justify-content-center">
+                      <div class="col-auto ">
+                        <img class="img-fluid" src="car.svg" alt="" />
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        <p class="text-center">{address.drivetime}</p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col">
-                  <p class="text-center">{address.walktime}</p>
+                  <div class="row justify-content-center">
+                    <div class="col-auto">
+                      <img class="img-fluid" src="walk.svg" alt="" />
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col">
+                      <p class="text-center">{address.walktime}</p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
+
             <form
               use:enhance
-              class="col-2 d-flex"
+              class="col d-flex"
               action="?/delete"
               method="POST"
             >

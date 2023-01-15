@@ -74,12 +74,13 @@ export const db = {
     let addresses = await Addresses.query()
       .where("owner_id", id)
       .orderBy("id", "desc");
-    console.log(addresses, 429);
+
     let final = addresses.map((element) => {
       return {
         origin_address: element.origin_address,
         destination_address: element.destination_address,
         walktime: element.walktime,
+        drivetime: element.drivetime,
         id: element.id,
       };
     });
@@ -104,10 +105,15 @@ export const db = {
 
   async getUser(token) {
     let testing = await Sessions.query();
-    console.log(testing, "TESTING?");
+
     let session = await Sessions.query().where("token", token);
     if (session.length == 0) {
       return { error: "No session" };
+    }
+    for (let i = 0; i < testing.length; i++) {
+      if (testing[i].expiresat < new Date()) {
+        let del = await Sessions.query().deleteById(testing[i].id);
+      }
     }
     let currentUser = await Users.query().where("id", session[0].user_id);
     if (session[0].expiresat < new Date()) {
@@ -146,7 +152,6 @@ export const db = {
       let passwordIsValid = await bcrypt.compare(password, user.password);
       if (passwordIsValid) {
         const sessionToken = uuid.v4();
-
         // set the expiry time as 120s after the current time
         const now = new Date();
         const expiresAt = new Date(+now + 120 * 1000);
@@ -175,23 +180,22 @@ export const db = {
   },
 
   async addAddress(data) {
-    console.log(data.session_token, "SESSION TOKENNN");
     let currentUser = await Sessions.query().where("token", data.session_token);
     if (currentUser.length == 0) {
       return { error: "No session" };
     }
     currentUser = currentUser[0];
-    console.log(currentUser, "CURRENT USER");
+
     data.addyData.owner_id = currentUser.user_id;
-    let addr = await Addresses.query().where(
-      "origin_address",
-      data.addyData.origin_address
-    );
+    let addr = await Addresses.query()
+      .where("origin_address", data.addyData.origin_address)
+      .where("owner_id", currentUser.user_id);
     if (addr.length > 0) {
       return { error: "Address already exists" };
     }
+
     let ins = await Addresses.query().insert(data.addyData);
-    console.log("INDSIDSNA", ins);
+    console.log("DNSKAJDNASJK", ins);
     return ins.toJSON();
   },
 

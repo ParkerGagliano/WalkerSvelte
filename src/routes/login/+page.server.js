@@ -4,7 +4,6 @@ import { db } from "$lib/database";
 /** @type {import('../$types').PageServerLoad}Load} */
 export async function load({ cookies, parent }) {
   let test = await parent();
-  console.log(test, "TEST");
   if (test.authorized == false) {
     return { authorized: false, message: "Not Logged In" };
   }

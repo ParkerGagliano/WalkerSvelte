@@ -28,15 +28,9 @@ export async function load({ cookies, parent }) {
 /** @type {import('./$types').Actions} */
 export const actions = {
   create: async ({ cookies, request }) => {
-    //let check = await db.getUser(cookies.get("session_token"));
-    //if (check.error) {
-    // throw redirect(307, "/login");
-    //}
     let fd = await request.formData();
     let address = fd.get("address");
-
     let final = address.split(" ");
-
     let addy = "";
     final.forEach((element) => {
       if (element == final[final.length - 1]) {
@@ -71,19 +65,19 @@ export const actions = {
         `,
         { headers: { mode: "no-cors" } }
       );
-      let d = await drivetime.json();
+      let drive = await drivetime.json();
       let addyData = {
         addyData: {
           origin_address: data.origin_addresses[0],
           destination_address: data.destination_addresses[smallest.index],
           walktime: data.rows[0].elements[smallest.index].duration.text,
-          drivetime: d.rows[0].elements[0].duration.text,
+          drivetime: drive.rows[0].elements[0].duration.text,
         },
         session_token: cookies.get("session_token"),
       };
       console.log(addyData);
-      let joe = await db.addAddress(addyData);
-      return joe;
+      let res = await db.addAddress(addyData);
+      return res;
     }
   },
   delete: async ({ request, cookies }) => {

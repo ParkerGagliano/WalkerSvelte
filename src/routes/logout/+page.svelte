@@ -1,7 +1,6 @@
 <script>
   /** @type {import('./$types').PageServerLoad} */
   export let data;
-  console.log(data);
 </script>
 
 {#if data.error != undefined}

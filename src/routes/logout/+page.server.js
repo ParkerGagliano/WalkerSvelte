@@ -8,7 +8,6 @@ export async function load({ cookies, parent }) {
   }
   const sessionid = cookies.get("session_token");
   let temp = await db.logoutUser(sessionid);
-  console.log("DNJASIKDKHJSAXZBDASHJKLBDSJAHKLBDSAHJKDSBAJKH");
   cookies.set("session_token", "", { path: "/", expires: new Date() });
   throw redirect(307, "/login");
 }

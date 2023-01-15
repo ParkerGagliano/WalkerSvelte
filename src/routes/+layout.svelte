@@ -5,7 +5,6 @@
   /** @type {import('./$types').LayoutServerData} */
   export let data;
 
-  console.log(data, "DAS");
   function handleNavToggle() {
     const nav = document.getElementById("navbarSupportedContent");
     if (nav.classList.contains("show")) {
@@ -23,6 +22,9 @@
   function flashError() {}
 </script>
 
+<svelte:head>
+  <title>Walker</title>
+</svelte:head>
 <div class="container-fluid p-0 m-0">
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">

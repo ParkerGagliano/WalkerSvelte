@@ -2,13 +2,11 @@
   import { fade } from "svelte/transition";
   import { fly } from "svelte/transition";
   import { enhance } from "$app/forms";
-  import { onMount } from "svelte";
-  import OnMount from "$lib/OnMount.svelte";
+
   let fdata = { addyData: null };
 
   let error = false;
 
-  let showing = true;
   /** @type {import('./$types').ActionData} */
   export let form;
   $: if (form) {

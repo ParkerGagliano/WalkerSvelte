@@ -1,28 +1,19 @@
 <script>
-  import { onMount } from "svelte";
   import { fly } from "svelte/transition";
   import { fade } from "svelte/transition";
   import { enhance } from "$app/forms";
   import Switch from "$lib/Switch.svelte";
-  import Addresses from "$lib/models/addresses";
+
   let showDesAddress = false;
   let error = false;
   /** @type {import('./$types').PageServerData} */
   export let data;
-  console.log("DNASJLKDNJSKA-data", data);
-  let dataready = false;
+
   /** @type {import('./$types').ActionData} */
   export let form;
-  let hovering = false;
+
   $: if (form?.error) {
     flashError();
-  }
-
-  function handleMouseOver() {
-    hovering = true;
-  }
-  function handleMouseOut() {
-    hovering = false;
   }
 
   function flashError() {
@@ -31,8 +22,6 @@
       error = false;
     }, 2600);
   }
-
-  $: console.log(hovering);
 </script>
 
 <div class="container-fluid" style="min-height: 100vh">

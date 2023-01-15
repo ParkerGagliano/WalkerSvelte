@@ -33,7 +33,11 @@
 @import "bootstrap/scss/placeholders";
 @import "bootstrap/scss/helpers";
 @import "bootstrap/scss/utilities/api";
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
 
 body {
+    font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
 }

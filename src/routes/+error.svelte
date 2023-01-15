@@ -1,5 +1,6 @@
 <script>
   import { page } from "$app/stores";
+  import { fly } from "svelte/transition";
 </script>
 
 <div class="container pt-5" style="min-height:100vh">

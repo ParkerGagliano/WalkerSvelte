@@ -11,8 +11,10 @@ import bcrypt from "bcrypt";
 //TODO
 // Delete sessions that are expired AAA
 // Add delte to all items DONE
-// fix coordinates of beach accesses
-// Fix homepage vs calc auth
+// fix coordinates of beach accesses need
+// fix title and favicon
+// overall clean code up
+// Fix homepage vs calc auth DIBE
 // look into passing auth status from layout/navbar to other things BETTER/DONE
 
 //fix login errors

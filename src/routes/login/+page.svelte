@@ -1,11 +1,10 @@
 <script>
-  import { onMount } from "svelte/internal";
   import { slide } from "svelte/transition";
   import { enhance } from "$app/forms";
 
   /** @type {import('./$types').ActionData} */
   export let form;
-  console.log(form);
+
   let error = false;
 
   $: if (form?.error) {
@@ -42,7 +41,6 @@
             name="username"
             type="username"
             class="form-control"
-            id="exampleInputEmail1"
             aria-describedby="emailHelp"
             placeholder="Enter username"
             required

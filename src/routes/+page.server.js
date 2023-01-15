@@ -41,13 +41,13 @@ export const actions = {
         `,
         { headers: { mode: "no-cors" } }
       );
-      let d = await drivetime.json();
+      let drive = await drivetime.json();
       let addyData = {
         addyData: {
           origin_address: data.origin_addresses[0],
           destination_address: data.destination_addresses[smallest.index],
           walktime: data.rows[0].elements[smallest.index].duration.text,
-          drivetime: d.rows[0].elements[0].duration.text,
+          drivetime: drive.rows[0].elements[0].duration.text,
         },
       };
       return addyData;

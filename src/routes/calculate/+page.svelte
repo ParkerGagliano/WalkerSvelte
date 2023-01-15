@@ -69,12 +69,24 @@
         <h5 class="m-0 mt-2 p-0">Carolina Beach, NC</h5>
       </div>
       <div class="mt-4 mt-sm-0 col-12 col-sm-auto">
-        <button class="btn btn-success d-block mx-auto" type="submit"
-          >Calculate</button
-        >
-      </div>
-      <div class="col-12 col-sm-auto">
-        <Switch bind:checked={showDesAddress} color="#2196F3" class="mt-2" />
+        <div class="row ">
+          <div class="col">
+            <button class="btn btn-success d-block mx-auto" type="submit"
+              >Calculate</button
+            >
+          </div>
+          <div class="col">
+            <div class="row justify-content-center">
+              <div class="col-auto">
+                <Switch
+                  bind:checked={showDesAddress}
+                  color="#2196F3"
+                  class="mt-2"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </form>
@@ -83,12 +95,13 @@
       <div
         out:fly|local={{ x: -100, duration: 250 }}
         in:fly={{ x: 100, duration: 250 }}
-        class="row mt-3 rounded-pill bg-primary"
+        class="row mt-3   bg-primary"
+        style="border-radius: 23px;"
       >
         <div class="col-12 p-3">
           <div class="row">
             <div class="col-12 col-sm-3">
-              <p class="text-center">{address.origin_address}</p>
+              <p in:fade class="text-center">{address.origin_address}</p>
             </div>
             <div class="col">
               {#if showDesAddress == true}
@@ -105,12 +118,12 @@
                   <div class="col">
                     <div class="row justify-content-center">
                       <div class="col-auto ">
-                        <img class="img-fluid" src="car.svg" alt="" />
+                        <img in:fade class="img-fluid" src="car.svg" alt="" />
                       </div>
                     </div>
                     <div class="row">
                       <div class="col">
-                        <p class="text-center">{address.drivetime}</p>
+                        <p in:fade class="text-center">{address.drivetime}</p>
                       </div>
                     </div>
                   </div>
@@ -118,12 +131,12 @@
                 <div class="col">
                   <div class="row justify-content-center">
                     <div class="col-auto">
-                      <img class="img-fluid" src="walk.svg" alt="" />
+                      <img in:fade class="img-fluid" src="walk.svg" alt="" />
                     </div>
                   </div>
                   <div class="row">
                     <div class="col">
-                      <p class="text-center">{address.walktime}</p>
+                      <p in:fade class="text-center">{address.walktime}</p>
                     </div>
                   </div>
                 </div>

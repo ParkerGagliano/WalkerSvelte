@@ -26,7 +26,7 @@
 <div class="container-fluid p-0 m-0">
   <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Walker</a>
+      <h1 class="mb-0 navbar-brand">Walker</h1>
       <button
         on:click={() => {
           handleNavToggle();
@@ -92,9 +92,10 @@
     <div class="mt-4 row justify-content-center">
       <div class="col-auto">
         <p>
-          Built with &#9825; by <a href="https://projects.parkergagliano.com"
+          Built by <a href="https://projects.parkergagliano.com"
             >Parker Gagliano</a
           >
+          using <a href="https://kit.svelte.dev/">Sveltekit</a>
         </p>
       </div>
     </div>

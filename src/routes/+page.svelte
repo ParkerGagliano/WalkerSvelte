@@ -125,15 +125,15 @@
     >
       <div class="col-12 p-3">
         <div class="row">
-          <div class="col-12 col-sm-3">
+          <div class="col-12 col-sm-4">
             <p in:fade class="text-center">{fdata.addyData.origin_address}</p>
           </div>
-          <div class="col">
+          <div class="col-12 col-sm-4">
             <p in:fade class="text-center">
               {fdata.addyData.destination_address}
             </p>
           </div>
-          <div class="col-12 col-sm-3">
+          <div class="col-12 col-sm-4">
             <div class="row">
               <div class="col">
                 <div class="col">

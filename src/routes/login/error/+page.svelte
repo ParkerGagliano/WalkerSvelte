@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte/internal";
   import { slide } from "svelte/transition";
   import { enhance } from "$app/forms";
   /** @type {import('./$types').PageServerData} */
@@ -8,9 +7,7 @@
   export let form;
   console.log(form);
   let error = false;
-
   let formerror = false;
-
   $: if (form?.error) {
     flashFormError();
   }

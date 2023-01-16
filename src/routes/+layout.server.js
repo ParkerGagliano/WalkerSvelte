@@ -6,7 +6,7 @@ export async function load({ cookies }) {
   const sessionid = cookies.get("session_token");
 
   if (!sessionid) {
-    return { authorized: false, message: "No session token" };
+    return { authorized: false, message: "Not Logged In" };
   }
   let temp = await db.getUser(sessionid);
   if (temp.error) {

@@ -4,10 +4,7 @@
   import { enhance } from "$app/forms";
   /** @type {import('./$types').ActionData} */
   export let form;
-
   let error = false;
-
-  $: console.log(form);
   $: if (form?.error) {
     flashError();
   }
@@ -61,7 +58,7 @@
           <label for="exampleInputPassword1">Confirm Password</label>
           <input
             name="confirmpassword"
-            type="confirmpassword"
+            type="password"
             class="form-control"
             id="exampleInputPassword1"
             placeholder="Password"

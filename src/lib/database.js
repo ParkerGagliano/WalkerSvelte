@@ -107,22 +107,22 @@ export const db = {
 
   async getUser(token) {
     let testing = await Sessions.query();
-
     let session = await Sessions.query().where("token", token);
     if (session.length == 0) {
       return { error: "No session" };
     }
+    if (session[0].expiresat < new Date()) {
+      let del = await Sessions.query().deleteById(session[0].id);
+      return { error: "Session expired" };
+    }
+
     for (let i = 0; i < testing.length; i++) {
       if (testing[i].expiresat < new Date()) {
         let del = await Sessions.query().deleteById(testing[i].id);
       }
     }
     let currentUser = await Users.query().where("id", session[0].user_id);
-    if (session[0].expiresat < new Date()) {
-      let del = await Sessions.query().deleteById(session[0].id);
-      console.log("deleted session");
-      //return { error: "Session expired" };
-    }
+
     let user = await Users.query().where("username", session[0].username);
     user = user[0].toJSON();
     const newSessionToken = uuidv4();
@@ -139,9 +139,10 @@ export const db = {
       expiresat: expiresAt,
     });
     user.session_token = newSessionToken;
+    console.log(expiresAt);
+
     let del2 = await Sessions.query().deleteById(session[0].id);
 
-    console.log("deleted session");
     // set the session token to the new value we generated, with a
     // renewed expiration time
     return user;

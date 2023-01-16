@@ -1,4 +1,5 @@
 import { SECRET_API_KEY } from "$env/static/private";
+
 /** @type {import('./$types').Actions} */
 export const actions = {
   default: async ({ cookies, request }) => {

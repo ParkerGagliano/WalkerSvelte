@@ -25,7 +25,6 @@
   if (form?.error) {
     flashError();
   }
-  $: console.log(fdata);
 
   function flashError() {
     error = true;

@@ -161,7 +161,6 @@ export const actions = {
     let smallest = { value: Infinity, index: 0 };
     data.rows[0].elements;
     let temp2 = data.rows[0].elements.map((element, a) => {
-      console.log(finaldes[a], element);
       if (element.distance.value < smallest.value) {
         smallest.value = element.distance.value;
         smallest.index = a;
@@ -178,8 +177,7 @@ export const actions = {
         { headers: { mode: "no-cors" } }
       );
       let drive = await drivetime.json();
-      console.log(finaldes);
-      console.log(smallest.index, "WHAT TTHE FUCK");
+
       let addyData = {
         addyData: {
           origin_address: data.origin_addresses[0],

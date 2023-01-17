@@ -4,12 +4,12 @@ import { db } from "$lib/database";
 /** @type {import('../$types').PageServerLoad}Load} */
 export async function load({ cookies, parent }) {
   let test = await parent();
-  console.log(test, "TEST");
+
   if (test.authorized == false) {
     return test;
   }
   let cookie = cookies.get("session_token");
-  console.log(cookie, "COOKIE");
+
   if (cookie) {
     let session = await db.getSession(cookie);
 

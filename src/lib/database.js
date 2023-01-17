@@ -7,18 +7,8 @@ import Addresses from "./models/addresses";
 import { v4 as uuidv4 } from "uuid";
 import bcrypt from "bcrypt";
 
-//CALLING GETRUSER THAT DELETES OLD TOKEN THEN CALLS ADD ADDY THAT NEEDS OLDER ONE THATS DELETED
-//TODO
-// Delete sessions that are expired AAA
-// Add delte to all items DONE
 // fix coordinates of beach accesses need
-// fix title and favicon
-// overall clean code up
-// Fix homepage vs calc auth DIBE
-// look into passing auth status from layout/navbar to other things BETTER/DONE
 
-//fix login errors
-//use slug on login to define if theres an error or not YES
 const knex = Knex(knexConfig.development);
 Model.knex(knex);
 let init = false;
@@ -139,7 +129,6 @@ export const db = {
       expiresat: expiresAt,
     });
     user.session_token = newSessionToken;
-    console.log(expiresAt);
 
     let del2 = await Sessions.query().deleteById(session[0].id);
 
@@ -178,12 +167,13 @@ export const db = {
   },
   async logoutUser(session) {
     let del = await Sessions.query().deleteById(session);
-    console.log("deleted session");
+
     return del;
   },
 
   async addAddress(data) {
     let currentUser = await Sessions.query().where("token", data.session_token);
+    console.log(currentUser);
     if (currentUser.length == 0) {
       return { error: "No session" };
     }
@@ -198,7 +188,7 @@ export const db = {
     }
 
     let ins = await Addresses.query().insert(data.addyData);
-    console.log("DNSKAJDNASJK", ins);
+
     return ins.toJSON();
   },
 

@@ -32,7 +32,7 @@ export const actions = {
           password: bcrypt.hashSync(password, 8),
         });
       }
-      console.log(user);
+
       throw redirect(307, "/login");
     }
   },

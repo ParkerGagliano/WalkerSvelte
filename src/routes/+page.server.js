@@ -177,13 +177,17 @@ export const actions = {
         { headers: { mode: "no-cors" } }
       );
       let drive = await drivetime.json();
-
+      let walktime = data.rows[0].elements[smallest.index].duration.text
+      let drivetimef = drive.rows[0].elements[0].duration.text
+      if (walktime < drivetime) {
+        drivetimef = walktime
+      }
       let addyData = {
         addyData: {
           origin_address: data.origin_addresses[0],
           destination_address: finaldes[smallest.index].name,
-          walktime: data.rows[0].elements[smallest.index].duration.text,
-          drivetime: drive.rows[0].elements[0].duration.text,
+          walktime: walktime,
+          drivetime: drivetimef,
         },
       };
       return addyData;

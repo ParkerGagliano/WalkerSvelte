@@ -28,7 +28,7 @@ export const actions = {
         return { error: "Passwords dont match" };
       } else {
         user = await Users.query().insert({
-          username: username,
+          username: username.toLowerCase(),
           password: bcrypt.hashSync(password, 8),
         });
       }

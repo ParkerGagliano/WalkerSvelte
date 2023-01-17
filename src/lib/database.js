@@ -138,6 +138,7 @@ export const db = {
   },
 
   async loginUser(username, password) {
+    username = username.toLowerCase();
     let user = await Users.query().where("username", username);
     user = user[0];
     if (user != undefined) {

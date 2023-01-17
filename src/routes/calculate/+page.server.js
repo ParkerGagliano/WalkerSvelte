@@ -2,7 +2,110 @@ import { SECRET_API_KEY } from "$env/static/private";
 import { db } from "$lib/database";
 import { redirect } from "@sveltejs/kit";
 import { fade } from "svelte/transition";
-
+let firstdestinationmap = {
+  0: {
+    name: "Alabama Public Beach Access",
+    c: { x: "34.013834", y: "-77.900046" },
+  },
+  1: {
+    name: "Texas Avenue Meter Lot",
+    c: { x: "34.015428", y: "-77.899419" },
+  },
+  2: {
+    name: "South Carolina Public Beach Access",
+    c: { x: "34.017039", y: "-77.898913" },
+  },
+  3: {
+    name: "Ocean Public Beach Access",
+    c: { x: "34.018612", y: "-77.898107" },
+  },
+  4: {
+    name: "North Carolina Public Beach Access",
+    c: { x: "34.020256", y: "-77.897518" },
+  },
+  5: {
+    name: "Tennessee Public Beach Access",
+    c: { x: "34.021944", y: "-77.897020" },
+  },
+  6: {
+    name: "Spartanburg Public Beach Access",
+    c: { x: "34.025788", y: "-77.895226" },
+  },
+  7: {
+    name: "Lake Public Beach Access",
+    c: { x: "34.027160", y: "-77.894741" },
+  },
+  8: {
+    name: "Driftwood Public Beach Access",
+    c: { x: "34.028520", y: "-77.894167" },
+  },
+  9: {
+    name: "Atlanta Public Beach Access",
+    c: { x: "34.029935", y: "-77.893738" },
+  },
+  10: {
+    name: "Hamlet Public Beach Access",
+    c: { x: "34.031454", y: "-77.892882" },
+  },
+  11: {
+    name: "Harper Public Beach Access",
+    c: { x: "34.034094", y: "-77.891702" },
+  },
+};
+let seconddestinationmap = {
+  0: {
+    name: "Pelican Public Beach Access",
+    c: { x: "34.036361", y: "-77.890739" },
+  },
+  1: {
+    name: "Dolphin Public Beach Access",
+    c: { x: "34.037715", y: "-77.890161" },
+  },
+  2: {
+    name: "Scallop Public Beach Access",
+    c: { x: "34.039127", y: "-77.889752" },
+  },
+  3: {
+    name: "Sea Gull Public Beach Access",
+    c: { x: "34.040500", y: "-77.889241" },
+  },
+  4: {
+    name: "Sailfish Public Beach Access",
+    c: { x: "34.041890", y: "-77.888672" },
+  },
+  5: {
+    name: "Oyster Shell Public Beach Access",
+    c: { x: "34.043232", y: "-77.888158" },
+  },
+  6: {
+    name: "Sandpiper Public Beach Access",
+    c: { x: "34.044557", y: "-77.887434" },
+  },
+  7: {
+    name: "Seahorse Public Beach Access",
+    c: { x: "34.045910", y: "-77.886866" },
+  },
+  8: {
+    name: "Scotch Bonnet Public Beach Access",
+    c: { x: "34.047298", y: "-77.886310" },
+  },
+  9: {
+    name: "Starfish Public Beach Access",
+    c: { x: "34.048625", y: "-77.885627" },
+  },
+  10: {
+    name: "Sand Dollar Public Beach Access",
+    c: { x: "34.049963", y: "-77.884986" },
+  },
+  11: {
+    name: "Clam Shell Public Beach Access",
+    c: { x: "34.051290", y: "-77.884319" },
+  },
+  12: {
+    name: "Periwinkle Public Beach Access",
+    c: { x: "34.052580", y: "-77.883507" },
+  },
+};
 /** @type {import('./$types').PageServerLoad}Load} */
 export async function load({ cookies, parent }) {
   let test = await parent();
@@ -28,111 +131,6 @@ export async function load({ cookies, parent }) {
 /** @type {import('./$types').Actions} */
 export const actions = {
   create: async ({ cookies, request }) => {
-    let firstdestinationmap = {
-      0: {
-        name: "Alabama Public Beach Access",
-        c: { x: "34.013834", y: "-77.900046" },
-      },
-      1: {
-        name: "Texas Avenue Meter Lot",
-        c: { x: "34.015428", y: "-77.899419" },
-      },
-      2: {
-        name: "South Carolina Public Beach Access",
-        c: { x: "34.017039", y: "-77.898913" },
-      },
-      3: {
-        name: "Ocean Public Beach Access",
-        c: { x: "34.018612", y: "-77.898107" },
-      },
-      4: {
-        name: "North Carolina Public Beach Access",
-        c: { x: "34.020256", y: "-77.897518" },
-      },
-      5: {
-        name: "Tennessee Public Beach Access",
-        c: { x: "34.021944", y: "-77.897020" },
-      },
-      6: {
-        name: "Spartanburg Public Beach Access",
-        c: { x: "34.025788", y: "-77.895226" },
-      },
-      7: {
-        name: "Lake Public Beach Access",
-        c: { x: "34.027160", y: "-77.894741" },
-      },
-      8: {
-        name: "Driftwood Public Beach Access",
-        c: { x: "34.028520", y: "-77.894167" },
-      },
-      9: {
-        name: "Atlanta Public Beach Access",
-        c: { x: "34.029935", y: "-77.893738" },
-      },
-      10: {
-        name: "Hamlet Public Beach Access",
-        c: { x: "34.031454", y: "-77.892882" },
-      },
-      11: {
-        name: "Harper Public Beach Access",
-        c: { x: "34.034094", y: "-77.891702" },
-      },
-    };
-    let seconddestinationmap = {
-      0: {
-        name: "Pelican Public Beach Access",
-        c: { x: "34.036361", y: "-77.890739" },
-      },
-      1: {
-        name: "Dolphin Public Beach Access",
-        c: { x: "34.037715", y: "-77.890161" },
-      },
-      2: {
-        name: "Scallop Public Beach Access",
-        c: { x: "34.039127", y: "-77.889752" },
-      },
-      3: {
-        name: "Sea Gull Public Beach Access",
-        c: { x: "34.040500", y: "-77.889241" },
-      },
-      4: {
-        name: "Sailfish Public Beach Access",
-        c: { x: "34.041890", y: "-77.888672" },
-      },
-      5: {
-        name: "Oyster Shell Public Beach Access",
-        c: { x: "34.043232", y: "-77.888158" },
-      },
-      6: {
-        name: "Sandpiper Public Beach Access",
-        c: { x: "34.044557", y: "-77.887434" },
-      },
-      7: {
-        name: "Seahorse Public Beach Access",
-        c: { x: "34.045910", y: "-77.886866" },
-      },
-      8: {
-        name: "Scotch Bonnet Public Beach Access",
-        c: { x: "34.047298", y: "-77.886310" },
-      },
-      9: {
-        name: "Starfish Public Beach Access",
-        c: { x: "34.048625", y: "-77.885627" },
-      },
-      10: {
-        name: "Sand Dollar Public Beach Access",
-        c: { x: "34.049963", y: "-77.884986" },
-      },
-      11: {
-        name: "Clam Shell Public Beach Access",
-        c: { x: "34.051290", y: "-77.884319" },
-      },
-      12: {
-        name: "Periwinkle Public Beach Access",
-        c: { x: "34.052580", y: "-77.883507" },
-      },
-    };
-
     let fd = await request.formData();
     let address = fd.get("address");
     let final = address.split(" ");

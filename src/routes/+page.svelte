@@ -46,7 +46,8 @@
     <div class="col">
       <p class="text-center">
         Walker is a simple calculator that finds the closest public beach access
-        to a given address and will calculate the walk time
+        to a given address and will calculate the walk time and golf cart/drive
+        time.
       </p>
     </div>
   </div>
@@ -88,8 +89,9 @@
     </div>
     <div class="col-12">
       <p class="text-center">
-        Just input a valid address and it will find the closest public beach
-        access and tell you the walk time
+        Input the first part of the address within Carolina Beach, NC and the
+        app will calculate the closest public beach access along with the walk
+        time and drive/golf cart time to that address.
       </p>
     </div>
   </div>

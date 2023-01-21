@@ -177,10 +177,10 @@ export const actions = {
         { headers: { mode: "no-cors" } }
       );
       let drive = await drivetime.json();
-      let walktime = data.rows[0].elements[smallest.index].duration.text
-      let drivetimef = drive.rows[0].elements[0].duration.text
+      let walktime = data.rows[0].elements[smallest.index].duration.text;
+      let drivetimef = drive.rows[0].elements[0].duration.text;
       if (walktime < drivetime) {
-        drivetimef = walktime
+        drivetimef = walktime;
       }
       let addyData = {
         addyData: {

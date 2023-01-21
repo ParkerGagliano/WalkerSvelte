@@ -204,7 +204,7 @@ export const actions = {
       let drive = await drivetime.json();
       let walktime = data.rows[0].elements[smallest.index].duration.text;
       let drivetimef = drive.rows[0].elements[0].duration.text;
-      if (walktime > drivetime) {
+      if (walktime < drivetimef) {
         drivetimef = walktime;
       }
 

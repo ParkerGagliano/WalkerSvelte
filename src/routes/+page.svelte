@@ -77,7 +77,7 @@
         You can save your history of queries in the Calculate page if you <a
           class="font-bold bg-clip-text text-bold
                 bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-900 via-sky-400 to-blue-700 text-transparent "
-          href="">create an account</a
+          href="/register">create an account</a
         >.
       </p>
     </div>

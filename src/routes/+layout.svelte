@@ -75,11 +75,11 @@
 </nav>
 <slot />
 <footer>
-  <p class="text-center mt-10 pt-8">
+  <p class="text-center mt-10 pt-8 pb-2">
     Built By <a
       class="font-bold bg-clip-text text-bold
             bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-900 via-sky-400 to-blue-700 text-transparent"
-      href="">Parker Gagliano</a
+      href="https://projects.parkergagliano.com/">Parker Gagliano</a
     >
   </p>
 </footer>

@@ -4,15 +4,12 @@ import { db } from "$lib/database";
 /** @type {import('../$types').PageServerLoad}Load} */
 export async function load({ cookies, parent }) {
   let test = await parent();
-
   if (test.authorized == false) {
-    return test;
+    return { authorized: false, message: "Not Logged In" };
   }
   let cookie = cookies.get("session_token");
-
   if (cookie) {
     let session = await db.getSession(cookie);
-
     if (session.expiresat > new Date()) {
       throw redirect(307, "/");
     } else {
@@ -35,6 +32,6 @@ export const actions = {
       return user;
     }
     event.cookies.set("session_token", user.session_token, { path: "/" });
-    throw redirect(307, "/");
+    throw redirect(307, "/calculate");
   },
 };

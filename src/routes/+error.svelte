@@ -3,17 +3,12 @@
   import { fly } from "svelte/transition";
 </script>
 
-<div class="container pt-5" style="min-height:100vh">
-  <div class="row justify-content-center">
-    <div class="col-auto">
-      <div in:fly={{ x: 200 }} class="col-auto">
-        <img class="img-fluid" src="cb.svg" alt="" />
-      </div>
-    </div>
-  </div>
-  <div class="row justify-content-center mt-4">
-    <div class="col-auto">
-      <h1>{$page.error.message}</h1>
-    </div>
-  </div>
+<div class="container mt-20 h-4/5 mx-auto">
+  <img src="cb.svg" class="mx-auto pr-10" alt="" />
+  <h1
+    class="text-3xl font-bold bg-clip-text text-bold
+  bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-900 via-sky-400 to-blue-700 text-center text-transparent "
+  >
+    {$page.error.message}
+  </h1>
 </div>

@@ -25,7 +25,7 @@ export const actions = {
       return { error: "User already exists" };
     } else {
       if (password != confirmpassword) {
-        return { error: "Passwords dont match" };
+        return { error: "Passwords do not match" };
       } else {
         user = await Users.query().insert({
           username: username.toLowerCase(),

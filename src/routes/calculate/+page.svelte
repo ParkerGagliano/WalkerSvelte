@@ -1,6 +1,6 @@
 <script>
   import { fly } from "svelte/transition";
-  import { fade } from "svelte/transition";
+  import { slide } from "svelte/transition";
   import { enhance } from "$app/forms";
   import Switch from "$lib/Switch.svelte";
 
@@ -24,126 +24,90 @@
   }
 </script>
 
-<div class="container-fluid" style="min-height: 100vh">
-  <div class="row justify-content-center" style="min-height: 70px">
-    {#if error == true}
-      <div class="col-6">
-        <div transition:fly={{ y: -200 }} class="border rounded border-danger">
-          <h5 class="text-center pb-0 mb-0 mt-2">{form?.error}</h5>
-        </div>
-      </div>
-    {/if}
-  </div>
-  <div class="row">
-    <div class="col">
-      <h1 class="text-center mt-3">Walk Time Calculator</h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <p class="text-center">Time to closest public beach access</p>
-    </div>
+<div class="container mt-20 min-h-full mx-auto">
+  <div
+    class=" border-black-50 border-2 text-center  shadow-lg  py-3  rounded-lg mt-10 justify-evenly bg-gray-100 "
+  >
+    <h1
+      class="text-3xl font-bold bg-clip-text text-bold
+            bg-[conic-gradient(at_bottom_right,_var(--tw-gradient-stops))] from-blue-900 via-sky-400 to-blue-700 text-transparent "
+    >
+      Walk Time Calculator
+    </h1>
+    <p class="text-sky-700">Time to closest public beach access</p>
   </div>
   <form
-    class="form-group mt-4 mb-5"
     action="?/create"
     method="POST"
     use:enhance
+    class=" border-black-50 border-2 text-center flex flex-col shadow-lg   py-6 rounded-lg mt-10  bg-gray-100 "
   >
-    <div class="row justify-content-center">
-      <div class="col-auto">
-        <input class="form-control" required type="text" name="address" />
-      </div>
-      <div class="col-auto">
-        <h5 class="m-0 mt-2 p-0">Carolina Beach, NC</h5>
-      </div>
-      <div class="mt-4 mt-sm-0 col-12 col-sm-auto">
-        <div class="row ">
-          <div class="col">
-            <button class="btn btn-success d-block mx-auto" type="submit"
-              >Calculate</button
-            >
-          </div>
-          <div class="col">
-            <div class="row justify-content-center">
-              <div class="col-auto">
-                <Switch
-                  bind:checked={showDesAddress}
-                  color="#2196F3"
-                  class="mt-2"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="flex flex-row justify-center">
+      <input
+        required
+        name="address"
+        type="text"
+        class="mr-4 p-2 rounded-lg w-1/3 md:w-1/2 lg:w-1/3"
+        placeholder="123 Swordfish Ln"
+      />
+      <h2 class="font-bold mr-4 pt-1 text-lg">Carolina Beach</h2>
+      <button
+        type="submit"
+        class="text-white bg-blue-700 hover:bg-blue-900 rounded-lg w-1/5 lg:w-1/6"
+        >Check</button
+      >
     </div>
   </form>
-  <div class="container">
-    {#each data.addresses as address (address.id)}
-      <div
-        out:fly|local={{ x: -100, duration: 250 }}
-        in:fly={{ x: 100, duration: 250 }}
-        class="row mt-3   bg-primary"
-        style="border-radius: 23px;"
-      >
-        <div class="col-12 p-3">
-          <div class="row">
-            <div class="col-12 col-sm-3">
-              <p in:fade class="text-center">{address.origin_address}</p>
-            </div>
-            <div class="col">
-              {#if showDesAddress == true}
-                <p in:fade class="text-center">
-                  {address.destination_address}
-                </p>
-              {:else}
-                <p in:fade class="text-center">Closest beach access</p>
-              {/if}
-            </div>
-            <div class="col-12 col-sm-3">
-              <div class="row">
-                <div class="col">
-                  <div class="col">
-                    <div class="row justify-content-center">
-                      <div class="col-auto ">
-                        <img in:fade class="img-fluid" src="car.svg" alt="" />
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <p in:fade class="text-center">{address.drivetime}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div class="row justify-content-center">
-                    <div class="col-auto">
-                      <img in:fade class="img-fluid" src="walk.svg" alt="" />
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <p in:fade class="text-center">{address.walktime}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <form
-              use:enhance
-              class="col d-flex"
-              action="?/delete"
-              method="POST"
-            >
-              <input type="hidden" name="id" value={address.id} />
-              <button class="btn btn-danger my-auto mx-auto">Delete</button>
-            </form>
-          </div>
+  {#if error == true}
+    <div
+      out:fly|local={{ x: -100, duration: 250 }}
+      in:fly={{ x: 100, duration: 250 }}
+      class="p-2 mt-10 my-auto mx-auto rounded-full border-2 border-red-700 "
+      role="alert"
+    >
+      <p class="text-center text-red-700  font-bold">
+        {form?.error}
+      </p>
+    </div>
+  {:else}
+    <div class="p-1" />
+  {/if}
+  {#each data.addresses as address (address.id)}
+    <div
+      out:fly|local={{ x: -100, duration: 250 }}
+      in:fly={{ x: 100, duration: 250 }}
+      class="border-black-50 border-2  text-center flex flex-col md:flex-row shadow-lg py-6 rounded-lg mt-10 justify-around"
+    >
+      <p class="w-full md:w-1/5">
+        {address.origin_address}
+      </p>
+      <p class="mt-4 md:mt-0 w-full md:w-1/5">
+        {address.destination_address}
+      </p>
+      <div class="mt-4 md:mt-0 w-full md:w-2/6 flex flex-row">
+        <div class="w-1/2  my-auto">
+          <img class="mx-auto" height="25px" src="walker.svg" alt="" />
+          <p>{address.walktime}</p>
+        </div>
+        <div class="w-1/2 my-auto">
+          <img class="mx-auto " height="25px" src="car.svg" alt="" />
+          <p>{address.drivetime}</p>
         </div>
       </div>
-    {/each}
-  </div>
+
+      <form
+        use:enhance
+        action="?/delete"
+        method="POST"
+        class="w-full md:w-1/5 my-auto"
+      >
+        <input type="hidden" name="id" value={address.id} />
+        <button
+          type="submit"
+          class="p-2 justify-self-center  text-white bg-red-700 hover:bg-red-900 rounded-lg"
+          >Delete</button
+        >
+      </form>
+    </div>
+  {/each}
 </div>
